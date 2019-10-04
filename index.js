@@ -12,21 +12,28 @@ const clientSecret="A92273779e1b33882c40c3fed8c0f2ff9777b5246";
 // First, on submit of my form userLookup the .userInput value is ran against all
 //repos on github.
 
-$(".userLookup").submit(function(event) {
+//name, html_url
+
+$(".userLookupForm").submit(function(event) {
     event.preventDefault();  
-    fetch('https://api.github.com/users/'+$(".userLookup").val()+ 'repos')
+    let userUrl = 'https://api.github.com/users/'+$(".userLookup").val()+ '/repos';
+    console.log(userUrl);
+    fetch(userUrl)
       .then(response => response.json())
       .then(responseJson => displayUserRepo(responseJson));
     }
 );
 
-//next the repoContainer is filled with the repo coinciding with user name
-const displayUserRepo = async (user) => {
-  console.log("displayUserFiring")
-  const apiCall = await fetch(`https://api.github.com/users/${user}?clientId=${clientId}&clientSecret=${clientSecret}`);
-  const data = await apiCall.json();
-  return {data};
+//append to repoContainer
+
+function displayUserRepo(data) {
+for(let i=0; i < data.length; i++) {
+  // $('.repoContainer').append('<li>'+ data[i].name + '<br>' + data[i].html_url + '</li>')
+  $('.repoContainer').append(`<li><a href="${data[i].html_url}"> ${data[i].name}</a> </li>`);
 };
+
+//, data[i].html_url
+}
 
 const showData = () => {
   displayUserRepo(userInput.value).then((result) => {
