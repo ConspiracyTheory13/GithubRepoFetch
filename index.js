@@ -18,6 +18,7 @@ $(".userLookupForm").submit(function(event) {
     event.preventDefault();  
     let userUrl = 'https://api.github.com/users/'+$(".userLookup").val()+ '/repos';
     console.log(userUrl);
+    empty();
     fetch(userUrl)
       .then(response => response.json())
       .then(responseJson => displayUserRepo(responseJson));
@@ -28,11 +29,8 @@ $(".userLookupForm").submit(function(event) {
 
 function displayUserRepo(data) {
 for(let i=0; i < data.length; i++) {
-  // $('.repoContainer').append('<li>'+ data[i].name + '<br>' + data[i].html_url + '</li>')
   $('.repoContainer').append(`<li><a href="${data[i].html_url}"> ${data[i].name}</a> </li>`);
 };
-
-//, data[i].html_url
 }
 
 const showData = () => {
